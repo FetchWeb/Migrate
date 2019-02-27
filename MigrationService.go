@@ -2,57 +2,27 @@ package migrate
 
 import (
 	"database/sql"
-	"fmt"
-	"os"
-	"strings"
 )
 
-var db *sql.DB
+type Direction string
 
-func init() {
-	dialect, isSet := os.LookupEnv("db_dialect")
-	if !isSet {
-		fmt.Printf("Failed to initialse Migrate package. Environment variable not set: db_dialect\n")
+const (
+	Up   Direction = "up"
+	Down Direction = "down"
+)
+
+var DB *sql.DB
+
+func RunMigration(migration *Migration, direction Direction) error {
+	var migrationQueries []string
+
+	if direction == Up {
+		migrationQueries = migration.Up
+	} else {
+		migrationQueries = migration.Down
 	}
 
-	port, isSet := os.LookupEnv("db_port")
-	if !isSet {
-		fmt.Printf("Failed to initialse Migrate package. Environment variable not set: db_port\n")
-	}
-
-	username, isSet := os.LookupEnv("db_username")
-	if !isSet {
-		fmt.Printf("Failed to initialse Migrate package. Environment variable not set: db_username\n")
-	}
-
-	password, isSet := os.LookupEnv("db_password")
-	if !isSet {
-		fmt.Printf("Failed to initialse Migrate package. Environment variable not set: db_password\n")
-	}
-
-	name, isSet := os.LookupEnv("db_name")
-	if !isSet {
-		fmt.Printf("Failed to initialse Migrate package. Environment variable not set: db_name\n")
-	}
-
-	address := strings.Join([]string{
-		username,
-		":",
-		password,
-		"@tcp(127.0.0.1:",
-		port,
-		")/",
-		name}, "")
-
-	var err error
-	db, err = sql.Open(dialect, address)
-	if err != nil {
-		fmt.Printf("Failed to open Migrate database connection: %v", err)
-	}
-}
-
-func RunMigration(migrationQueries []string) error {
-	transaction, err := db.Begin()
+	transaction, err := DB.Begin()
 	if err != nil {
 		return err
 	}
