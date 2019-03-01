@@ -45,7 +45,7 @@ Create a Migration then parse the SQL source file to it.
 
 From there a Migration can be run in two directions, Up or Down. Running a Migration Up will rollout database changes and add the Migration info to the database, so a Migration table is required in the database, see the test Migration sources for the insert query. Running a Migration Down will rollback database changes and set the IsInstalled column to false for that Migration in the database.
 
-Note, Migration names should be unque to avoid confusion. Prepending a UNIX timestamp or the version that this Migration corresponds with can help ensure they are. For example.
+Migration names should be unque to avoid confusion. Prepending a UNIX timestamp or the version that this Migration corresponds with can help ensure they are. For example.
 
 ```
 1551438141_NewMigration.sql
