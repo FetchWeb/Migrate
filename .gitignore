@@ -17,4 +17,4 @@ debug
 debug.test
 
 # Test data
-TestConfig.json
+tests/TestConfig.json
