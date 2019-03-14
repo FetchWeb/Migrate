@@ -64,11 +64,11 @@ func TestMigration(t *testing.T) {
 		t.Fatalf("Failed to parse migrationOne source: %v", err)
 	}
 
-	if err := migrationOne.RunMigration(migrate.Up); err != nil {
+	if err := migrationOne.Run(migrate.Up); err != nil {
 		t.Fatalf("Failed to migrate up on migrationOne: %v", err)
 	}
 
-	if err := migrationOne.RunMigration(migrate.Down); err != nil {
+	if err := migrationOne.Run(migrate.Down); err != nil {
 		t.Fatalf("Failed to migrate down on migrationOne: %v", err)
 	}
 
@@ -77,7 +77,7 @@ func TestMigration(t *testing.T) {
 		t.Fatalf("Failed to parse migrationTwo source: %v", err)
 	}
 
-	if err := migrationTwo.RunMigration(migrate.Up); err != nil {
+	if err := migrationTwo.Run(migrate.Up); err != nil {
 		t.Fatalf("Failed to migrate up on migrationTwo: %v", err)
 	}
 

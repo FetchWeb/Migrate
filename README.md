@@ -82,12 +82,12 @@ func main() {
 	}
 
 	// Run the Migration Up.
-	if err := migrationOne.RunMigration(migrate.Up); err != nil {
+	if err := migrationOne.Run(migrate.Up); err != nil {
 		panic(err)
 	}
 
 	// Run the Migration Down.
-	if err := migrationOne.RunMigration(migrate.Down); err != nil {
+	if err := migrationOne.Run(migrate.Down); err != nil {
 		panic(err)
 	}
 }
