@@ -51,8 +51,8 @@ func (m *Migration) ParseSource(fileDirectory string) error {
 	return nil
 }
 
-// RunMigration takes a direction as an argument and runs the queries for that direction.
-func (m *Migration) RunMigration(direction Direction) error {
+// Run takes a direction as an argument and runs the queries for that direction.
+func (m *Migration) Run(direction Direction) error {
 	if direction != Up && direction != Down {
 		return errors.New("Invalid Migration Direction")
 	}
