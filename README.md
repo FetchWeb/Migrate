@@ -1,5 +1,10 @@
 # FetchWeb Migrate
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Go Report Card](https://goreportcard.com/badge/github.com/FetchWeb/Migrate)](https://goreportcard.com/report/github.com/FetchWeb/Migrate)
+[![Go Doc](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/FetchWeb/Migrate)
+[![GitHub release](https://img.shields.io/github/release/FetchWeb/Migrate.svg)](https://github.com/FetchWeb/Migrate/releases )
+
 ## Introduction
 FetchWeb Migrate is a simple database migration API witten in Go with no dependencies outside of the standard library. Migrations offer a way of reliably rolling out and rolling back database changes.
 

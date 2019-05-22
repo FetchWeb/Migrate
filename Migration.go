@@ -112,11 +112,7 @@ func (m *Migration) Run(direction Direction) error {
 	}
 
 	// Commit the transaction.
-	if err := transaction.Commit(); err != nil {
-		return err
-	}
-
-	return nil
+	return transaction.Commit()
 }
 
 // splitQueries splits a Migration's Up or Down into separate queries.
