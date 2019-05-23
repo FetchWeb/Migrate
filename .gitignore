@@ -16,5 +16,9 @@
 debug
 debug.test
 
+# Go Modules.
+go.mod
+go.sum
+
 # Test data
 TestConfig.json

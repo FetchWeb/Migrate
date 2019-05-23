@@ -6,7 +6,7 @@
 [![GitHub release](https://img.shields.io/github/release/FetchWeb/Migrate.svg)](https://github.com/FetchWeb/Migrate/releases )
 
 ## Introduction
-FetchWeb Migrate is a simple database migration API witten in Go with no dependencies outside of the standard library. Migrations offer a way of reliably rolling out and rolling back database changes.
+FetchWeb Migrate is a simple database migration API witten in Go with no dependencies outside of the Go standard library. Migrations offer a way of reliably rolling out and rolling back database changes.
 
 ## Setup Example
 
