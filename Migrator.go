@@ -11,24 +11,21 @@ import (
 // DB is the database where the migrations will be stored.
 var DB *sql.DB
 
-var MigrationDirectories []string
+var MigrationDirectory string
 
 func RunAllMigrations() error {
 	migrationFiles := []os.FileInfo{}
 	migrationEntries := []Migration{}
 
-	for _, migrationDirectory := range MigrationDirectories {
-		files, err := ioutil.ReadDir(migrationDirectory)
-		if err != nil {
-			return err
-		}
+	files, err := ioutil.ReadDir(MigrationDirectory)
+	if err != nil {
+		return err
+	}
 
-		for _, file := range files {
-			if filepath.Ext(file.Name()) == ".sql" {
-				migrationFiles = append(migrationFiles, file)
-			}
+	for _, file := range files {
+		if filepath.Ext(file.Name()) == ".sql" {
+			migrationFiles = append(migrationFiles, file)
 		}
-
 	}
 
 	rows, err := DB.Query("SELECT * FROM migration WHERE deleted_at = NULL")
@@ -59,7 +56,7 @@ func RunAllMigrations() error {
 
 		if !migrationFound {
 			newMigrationEntry := Migration{}
-			newMigrationEntry.ParseSource(migrationFile.Name())
+			newMigrationEntry.ParseSource(MigrationDirectory + migrationFile.Name())
 			migrationsToRun = append(migrationsToRun, newMigrationEntry)
 		}
 	}
@@ -77,18 +74,15 @@ func ListMigrations() ([]Migration, error) {
 	migrationFiles := []os.FileInfo{}
 	migrationEntries := []Migration{}
 
-	for _, migrationDirectory := range MigrationDirectories {
-		files, err := ioutil.ReadDir(migrationDirectory)
-		if err != nil {
-			return nil, err
-		}
+	files, err := ioutil.ReadDir(MigrationDirectory)
+	if err != nil {
+		return nil, err
+	}
 
-		for _, file := range files {
-			if filepath.Ext(file.Name()) == ".sql" {
-				migrationFiles = append(migrationFiles, file)
-			}
+	for _, file := range files {
+		if filepath.Ext(file.Name()) == ".sql" {
+			migrationFiles = append(migrationFiles, file)
 		}
-
 	}
 
 	rows, err := DB.Query("SELECT * FROM migration WHERE deleted_at = NULL")
@@ -117,7 +111,7 @@ func ListMigrations() ([]Migration, error) {
 
 		if !migrationFound {
 			newMigrationEntry := Migration{}
-			newMigrationEntry.ParseSource(migrationFile.Name())
+			newMigrationEntry.ParseSource(MigrationDirectory + migrationFile.Name())
 			migrationEntries = append(migrationEntries, newMigrationEntry)
 		}
 	}
