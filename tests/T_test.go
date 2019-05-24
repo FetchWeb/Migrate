@@ -7,13 +7,10 @@ import (
 	"strings"
 	"testing"
 
-	_ "github.com/go-sql-driver/mysql"
-
 	migrate "github.com/FetchWeb/Migrate"
 )
 
-// TestMigration runs two Migrations, the first Up, then Down. The second just Up.
-func TestMigration(t *testing.T) {
+func TestListMigrations(t *testing.T) {
 	config := &struct {
 		DBDialect  string `json:"db_dialect"`
 		DBPort     string `json:"db_port"`
@@ -49,33 +46,16 @@ func TestMigration(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to use %v database: %v", config.DBName, err)
 	}
-
-	// Run the two migrations.
-	migrationOne := &migrate.Migration{}
-	if err := migrationOne.ParseSource("TestMigration_1.sql"); err != nil {
-		t.Fatalf("Failed to parse migrationOne source: %v", err)
-	}
-
-	if err := migrationOne.Run(migrate.Up); err != nil {
-		t.Fatalf("Failed to migrate up on migrationOne: %v", err)
-	}
-
-	if err := migrationOne.Run(migrate.Down); err != nil {
-		t.Fatalf("Failed to migrate down on migrationOne: %v", err)
-	}
-
-	migrationTwo := &migrate.Migration{}
-	if err := migrationTwo.ParseSource("TestMigration_2.sql"); err != nil {
-		t.Fatalf("Failed to parse migrationTwo source: %v", err)
-	}
-
-	if err := migrationTwo.Run(migrate.Up); err != nil {
-		t.Fatalf("Failed to migrate up on migrationTwo: %v", err)
-	}
-
-	// Drop the test database.
-	_, err = migrate.DB.Exec(strings.Join([]string{"DROP DATABASE ", config.DBName, ";"}, ""))
+	_, err = migrate.DB.Exec("CREATE TABLE migration (id BIGINT NOT NULL AUTO_INCREMENT, name VARCHAR(255) NOT NULL, up TEXT NOT NULL, down TEXT, is_installed BIT DEFAULT 0, installed_at DATETIME DEFAULT CURRENT_TIMESTAMP, created_at DATETIME DEFAULT CURRENT_TIMESTAMP, deleted_at DATETIME, PRIMARY KEY (id))")
 	if err != nil {
-		t.Fatalf("Failed to remove %v database: %v", config.DBName, err)
+		t.Fatalf("Failed to use %v database: %v", config.DBName, err)
 	}
+
+	migrate.MigrationDirectories = []string{"/home/strongishllama/go/src/github.com/FetchWeb/Migrate/tests/migrations"}
+	migrations, err := migrate.ListMigrations()
+	if err != nil {
+		t.Fatalf("Failed to list migrations: %v", err)
+	}
+
+	t.Log(migrations)
 }

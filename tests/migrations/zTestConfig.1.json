@@ -1,0 +1,7 @@
+{
+	"db_dialect": "mysql",
+	"db_port": "3306",
+	"db_username": "admin",
+	"db_password": "admin",
+	"db_name": "migrate_test"
+}

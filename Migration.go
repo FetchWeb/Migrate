@@ -1,7 +1,6 @@
 package migrate
 
 import (
-	"database/sql"
 	"errors"
 	"io/ioutil"
 	"path/filepath"
@@ -18,9 +17,6 @@ const (
 	Down Direction = "down"
 )
 
-// DB is the database where the migrations will be stored.
-var DB *sql.DB
-
 // Migration gives the ability to reliably rollout and rollback database changes.
 type Migration struct {
 	ID          int64
@@ -29,6 +25,7 @@ type Migration struct {
 	Down        string
 	IsInstalled bool
 	InstalledAt time.Time
+	DeletedAt   *time.Time
 }
 
 // ParseSource parses the SQL source file into the Migration.
