@@ -25,7 +25,6 @@ type Migration struct {
 	Down        string
 	IsInstalled bool
 	InstalledAt time.Time
-	DeletedAt   *time.Time
 }
 
 // ParseSource parses the SQL source file into the Migration.
